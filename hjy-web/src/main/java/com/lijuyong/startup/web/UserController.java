@@ -23,6 +23,7 @@ public class UserController extends BasicController{
     @RequestMapping("/login")
     public ActionResult login(@RequestBody UserVO userVO,@RequestParam("from") Integer from){
         MemberDO memberDO = memberRepository.findByLoginNameAndLoginPassword(userVO.getLoginName(),userVO.getPassword());
+        memberDO.setLoginPassword("******");
         if( memberDO != null ){
             return actionResult(memberDO);
         }
