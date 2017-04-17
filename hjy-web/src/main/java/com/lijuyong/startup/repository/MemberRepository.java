@@ -16,6 +16,6 @@ import java.util.List;
 public interface MemberRepository extends JpaRepository<MemberDO,Integer> {
 
     MemberDO findByLoginName(String loginName);
-    MemberDO getByLoginName(String loginName);
+    MemberDO findByLoginNameAndLoginPassword(String loginName,String loginPassword);
 
 }
