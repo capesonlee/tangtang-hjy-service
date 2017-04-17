@@ -71,18 +71,17 @@ public class MemberController extends BasicController{
         return  actionResult(memberList);
     }
 
-    @RequestMapping(value = "/loginname",method = RequestMethod.GET)
+    @RequestMapping(value = "/validateName",method = RequestMethod.GET)
     public ActionResult validateLoginName(@RequestParam("value") String loginName){
+
         MemberDO x = memberRepository.findByLoginName(loginName);
-        MemberDO y = memberRepository.getByLoginName(loginName);
-        if( x != null ){
-            return actionResult(x);
-        }
-        System.out.println("here is login name " + loginName);
-        if( y == null ){
+        if( x == null ){
+
             return actionResult(ErrorCode.Success);
+
         }
-        return actionResult(ErrorCode.LoginNameExists,y);
+        return actionResult(ErrorCode.LoginNameExists,x);
+
     }
 
 
