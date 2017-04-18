@@ -12,7 +12,8 @@ public enum ErrorCode
     UnexpectedFailure(2,"未知的异常"),
     NotFound(3,"数据不存在"),
     LoginNameExists(4,"用户名已经存在"),
-    DataExists(5,"数据已经存在");
+    DataExists(5,"数据已经存在"),
+    NeedAuthenticated(6,"需要登录");
 
 
 

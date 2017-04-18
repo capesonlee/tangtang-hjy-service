@@ -15,7 +15,7 @@ public class BasicController {
         ErrorCode code = ErrorCode.Success;
         return  actionResult(code,value);
     }
-    public ActionResult<ErrorCode> actionResult(ErrorCode code){
+    public ActionResult<Void> actionResult(ErrorCode code){
         return  actionResult(code,null);
     }
 
