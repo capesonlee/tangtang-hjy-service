@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by john on 2017/4/17.
  */
 @Repository
-public interface WeChatRepository extends JpaRepository<WeChatDO,Integer> {
+public interface WechatRepository extends JpaRepository<WeChatDO,Integer> {
+    WeChatDO findByAppIdAndOpenId(String appId,String openId);
 }
