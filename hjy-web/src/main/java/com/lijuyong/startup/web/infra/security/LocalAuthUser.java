@@ -12,6 +12,8 @@ public class LocalAuthUser implements UserDetails {
     private final String username;
     private final String password;
     private final Integer userId;
+    private  String companyName;
+    private  String companyCode;
 
     public LocalAuthUser( String username,String password,Integer userId) {
 
@@ -20,6 +22,23 @@ public class LocalAuthUser implements UserDetails {
         this.userId = userId;
 
     }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

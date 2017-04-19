@@ -23,5 +23,6 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
                         null);
         HttpUtil.addJsonBodyToResponse(response,actionResult);
 
+
     }
 }

@@ -30,11 +30,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(this.userDetailsService);
-//                .passwordEncoder(passwordEncoder());
     }
     @Bean
     public RestAuthenticationFilter restAuthenticationFilterBean() throws Exception {
-        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter("/auth/signin",
+        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter("/admin/login",
                 authenticationManager());
         restAuthenticationFilter.setAuthenticationSuccessHandler(new RestAuthenticationSuccessHandler());
         restAuthenticationFilter.setAuthenticationFailureHandler(new RestAuthenticationFailureHandler());
@@ -44,11 +43,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .headers().frameOptions().disable()
+                .and()
                 .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/h2-hjy/**").permitAll()
                 .antMatchers("/*.html").permitAll()
                 .antMatchers("/member/validateName").permitAll()
                 .anyRequest().authenticated()
