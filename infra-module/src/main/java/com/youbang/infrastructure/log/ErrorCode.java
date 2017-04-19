@@ -13,7 +13,8 @@ public enum ErrorCode
     NotFound(3,"数据不存在"),
     LoginNameExists(4,"用户名已经存在"),
     DataExists(5,"数据已经存在"),
-    NeedAuthenticated(6,"需要登录");
+    NeedAuthenticated(6,"需要登录"),
+    AuthenticationFailed(7,"用户名不存在或者密码错误");
 
 
 

@@ -24,6 +24,9 @@ import java.io.IOException;
  * Created by john on 2017/4/18.
  */
 
+/**
+ * 主要用来修改验证信息时如何在消息体重解析用户名和密码
+* */
 public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     public RestAuthenticationFilter(String urlMapping, AuthenticationManager authManager) {
@@ -36,24 +39,26 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
                                                 HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
 
-        final LoinUserReq user =
-                new ObjectMapper().readValue(request.getInputStream(), LoinUserReq.class);
+        String username;
+        String password;
+        if( "application/json".equals(request.getHeader("content-type") )){
+            final LoinUserReq user =
+                    new ObjectMapper().readValue(request.getInputStream(), LoinUserReq.class);
+            username = user.getUsername();
+            password = user.getPassword();
+
+        }
+        else
+        {
+            username = request.getParameter("username");
+            password = request.getParameter("password");
+        }
+
         final UsernamePasswordAuthenticationToken loginToken =
                 new UsernamePasswordAuthenticationToken(
-                user.getUsername(), user.getPassword());
+                        username, password);
 
         return getAuthenticationManager().authenticate(loginToken);
-    }
-
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            FilterChain chain,
-                                            Authentication authentication)
-            throws IOException, ServletException {
-
-        
-        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }
 

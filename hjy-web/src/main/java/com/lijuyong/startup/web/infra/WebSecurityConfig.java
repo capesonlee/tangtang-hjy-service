@@ -1,6 +1,7 @@
 package com.lijuyong.startup.web.infra;
 
 import com.lijuyong.startup.web.infra.security.RestAuthenticationEntryPoint;
+import com.lijuyong.startup.web.infra.security.RestAuthenticationFailureHandler;
 import com.lijuyong.startup.web.infra.security.RestAuthenticationFilter;
 import com.lijuyong.startup.web.infra.security.RestAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter("/auth/signin",
                 authenticationManager());
         restAuthenticationFilter.setAuthenticationSuccessHandler(new RestAuthenticationSuccessHandler());
+        restAuthenticationFilter.setAuthenticationFailureHandler(new RestAuthenticationFailureHandler());
         return restAuthenticationFilter;
     }
 
@@ -47,11 +49,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/*.html").permitAll()
                 .antMatchers("/member/validateName").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
 
         http.addFilterBefore(restAuthenticationFilterBean(),
                 UsernamePasswordAuthenticationFilter.class);
