@@ -3,10 +3,12 @@ package com.lijuyong.startup.web;
 import com.lijuyong.startup.entity.MemberDO;
 import com.lijuyong.startup.repository.MemberRepository;
 import com.lijuyong.startup.web.domain.UserVO;
+import com.lijuyong.startup.web.infra.security.LocalAuthUser;
 import com.youbang.infrastructure.log.ErrorCode;
 import com.youbang.infrastructure.web.ActionResult;
 import com.youbang.infrastructure.web.BasicController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,21 +30,14 @@ public class UserController extends BasicController{
 
     @Autowired
     MemberRepository memberRepository;
-    @RequestMapping("/login")
-    public ActionResult login(@RequestBody UserVO userVO,
-                              @RequestParam("from") Integer from
-                              ){
-        MemberDO memberDO =
-                memberRepository.findByLoginNameAndLoginPassword(
-                        userVO.getLoginName(),userVO.getPassword());
-
-        if( memberDO != null ){
-            memberDO.setLoginPassword("******");
-            return actionResult(memberDO);
-        }
-
-        return  actionResult(ErrorCode.Failure);
-
+    @RequestMapping("/detail")
+    ActionResult detail(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        LocalAuthUser localAuthUser = (LocalAuthUser)principal;
+        MemberDO memberDO = memberRepository.findOne(localAuthUser.getUserId());
+        return  actionResult(ErrorCode.Success,memberDO);
     }
+
+
 
 }

@@ -29,7 +29,7 @@ public class LocalAuthUserDetailServiceImpl implements UserDetailsService {
         this.isAdmin = isAdmin;
     }
     public LocalAuthUserDetailServiceImpl(){
-        this.isAdmin = true;
+        this.isAdmin = false;
     }
 
     @Override
