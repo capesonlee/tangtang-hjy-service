@@ -4,7 +4,6 @@ package com.lijuyong.startup.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 /**
  * Created by john on 2017/4/17.

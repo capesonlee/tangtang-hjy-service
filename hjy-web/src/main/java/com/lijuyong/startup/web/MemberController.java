@@ -2,9 +2,6 @@ package com.lijuyong.startup.web;
 
 import com.lijuyong.startup.entity.MemberDO;
 import com.lijuyong.startup.repository.MemberRepository;
-import com.lijuyong.startup.repository.WeChatRepository;
-
-
 import com.youbang.infrastructure.log.ErrorCode;
 import com.youbang.infrastructure.web.ActionResult;
 import com.youbang.infrastructure.web.BasicController;
@@ -15,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 /**
  * Created by john on 2017/4/16.
@@ -26,9 +21,6 @@ import java.util.List;
 public class MemberController extends BasicController{
     @Autowired
     MemberRepository memberRepository;
-
-    @Autowired
-    WeChatRepository weChatRepository;
 
     @RequestMapping("/test")
     public String test(){

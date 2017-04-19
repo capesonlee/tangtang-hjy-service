@@ -2,11 +2,7 @@ package com.lijuyong.startup.repository;
 
 import com.lijuyong.startup.entity.MemberDO;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 
 /**
@@ -16,6 +12,6 @@ import java.util.List;
 public interface MemberRepository extends JpaRepository<MemberDO,Integer> {
 
     MemberDO findByLoginName(String loginName);
-    MemberDO findByLoginNameAndLoginPassword(String loginName,String loginPassword);
+    MemberDO findByLoginNameAndLoginPassword(String loginName, String loginPassword);
 
 }
