@@ -62,7 +62,7 @@ public class WechatController extends BasicController {
         if (userId == null) {
             return actionResult(ErrorCode.NeedAuthenticated);
         }
-        MemberDO memberDO = memberRepository.getOne(userId);
+        MemberDO memberDO = memberRepository.findOne(userId);
         return actionResult(ErrorCode.Success, memberDO);
     }
 
@@ -76,7 +76,7 @@ public class WechatController extends BasicController {
         if (!valide) {
             return actionResult(ErrorCode.AuthenticationFailed);
         }
-       
+
         session.setAttribute("userId", memberDO.getId());
         return actionResult(ErrorCode.Success);
     }
