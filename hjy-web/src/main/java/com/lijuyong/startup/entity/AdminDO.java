@@ -14,7 +14,7 @@ public class AdminDO {
     @Column(name="name",unique = true)
     private String name;
 
-    @Column(name = "password",unique = true)
+    @Column(name = "password")
     private String password;
 
     @Column(name="company_name")
