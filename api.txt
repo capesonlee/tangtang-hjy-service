@@ -1,3 +1,5 @@
+D:\green\ngrok>ngrok.exe -config=ngrok.cfg -subdomain capesonlee 9933
+
 µÚÒ»²½£ºµÇÂ¼
 post http://capesonlee.tunnel.2bdata.com/wechat/sign
 {
