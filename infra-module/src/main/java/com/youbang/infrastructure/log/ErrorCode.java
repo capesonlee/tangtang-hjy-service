@@ -15,7 +15,7 @@ public enum ErrorCode
     DataExists(5,"数据已经存在"),
     NeedAuthenticated(6,"需要登录"),
     AuthenticationFailed(7,"用户名不存在或者密码错误"),
-    NeedBindWechat(8,"需要绑定用户名密码");
+    NeedBindWechat(8,"该微信号没有绑定用户");
 
 
 
