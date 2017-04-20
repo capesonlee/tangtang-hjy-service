@@ -1,9 +1,10 @@
 第一步：登录
-post http://capesonlee.tunnel.2bdata.com/wechat/login
+post http://capesonlee.tunnel.2bdata.com/wechat/sign
 {
   "loginName":"lijuyong",
   "password":"123456"
 }
+
 返回值：
 0：成功（去第二步)
 7：用户名不存在或者密码错误(去第一步)

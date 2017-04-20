@@ -56,6 +56,21 @@ public class WechatController extends BasicController {
     @Autowired
     MemberRepository memberRepository;
 
+    protected ActionResult userLogin(UserVO userVO, HttpSession session) {
+        MemberDO memberDO = memberRepository.findByLoginName(userVO.getLoginName());
+        if (memberDO == null) {
+            return actionResult(ErrorCode.AuthenticationFailed);
+        }
+        boolean valide = memberDO.getLoginPassword().equals(userVO.getPassword());
+        if (!valide) {
+            return actionResult(ErrorCode.AuthenticationFailed);
+        }
+
+        session.setAttribute("userId", memberDO.getId());
+        return actionResult(ErrorCode.Success);
+
+    }
+
     @RequestMapping("/detail")
     ActionResult detail(HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
@@ -68,17 +83,13 @@ public class WechatController extends BasicController {
 
     @RequestMapping("/login")
     ActionResult login(UserVO userVO, HttpSession session) {
-        MemberDO memberDO = memberRepository.findByLoginName(userVO.getLoginName());
-        if (memberDO == null) {
-            return actionResult(ErrorCode.AuthenticationFailed);
-        }
-        boolean valide = memberDO.getLoginPassword().equals(userVO.getPassword());
-        if (!valide) {
-            return actionResult(ErrorCode.AuthenticationFailed);
-        }
+        return userLogin(userVO, session);
 
-        session.setAttribute("userId", memberDO.getId());
-        return actionResult(ErrorCode.Success);
+    }
+
+    @RequestMapping("/signin")
+    ActionResult signin(@RequestBody UserVO userVO, HttpSession session) {
+        return userLogin(userVO, session);
     }
 
     @RequestMapping("/grant")
@@ -115,7 +126,6 @@ public class WechatController extends BasicController {
         wechatRepository.save(weChatDO);
         return actionResult(ErrorCode.Success);
     }
-
 
 
     @RequestMapping("/logout")
