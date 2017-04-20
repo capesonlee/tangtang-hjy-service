@@ -33,7 +33,7 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
  * Created by john on 2017/4/17.
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/wechat")
 public class WechatController extends BasicController {
 
 
@@ -67,20 +67,21 @@ public class WechatController extends BasicController {
     }
 
     @RequestMapping("/login")
-    ActionResult login(@RequestBody UserVO userVO, HttpSession session) {
+    ActionResult login(UserVO userVO, HttpSession session) {
         MemberDO memberDO = memberRepository.findByLoginName(userVO.getLoginName());
         if (memberDO == null) {
             return actionResult(ErrorCode.AuthenticationFailed);
         }
-        if (memberDO.getLoginPassword() != userVO.getPassword()) {
+        boolean valide = memberDO.getLoginPassword().equals(userVO.getPassword());
+        if (!valide) {
             return actionResult(ErrorCode.AuthenticationFailed);
         }
-        session.invalidate();
+       
         session.setAttribute("userId", memberDO.getId());
         return actionResult(ErrorCode.Success);
     }
 
-    @RequestMapping("/auth")
+    @RequestMapping("/grant")
     ActionResult bind(HttpSession session,
                       @RequestParam("code") String code,
                       @RequestParam("state") Integer state) throws Exception {
@@ -115,7 +116,7 @@ public class WechatController extends BasicController {
         return actionResult(ErrorCode.Success);
     }
 
- 
+
 
     @RequestMapping("/logout")
     ActionResult logout(HttpSession session) {
