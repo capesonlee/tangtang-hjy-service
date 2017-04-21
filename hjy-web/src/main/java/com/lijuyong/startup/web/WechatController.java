@@ -7,6 +7,7 @@ import com.lijuyong.startup.entity.WeChatDO;
 import com.lijuyong.startup.repository.WechatRepository;
 import com.lijuyong.startup.web.domain.AccessTokenDTO;
 import com.lijuyong.startup.repository.MemberRepository;
+import com.lijuyong.startup.web.domain.RevenueVO;
 import com.lijuyong.startup.web.domain.UserVO;
 import com.lijuyong.startup.web.infra.security.LocalAuthUser;
 import com.youbang.infrastructure.log.ErrorCode;
@@ -25,6 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
@@ -85,6 +89,37 @@ public class WechatController extends BasicController {
     ActionResult login(UserVO userVO, HttpSession session) {
         return userLogin(userVO, session);
 
+    }
+
+    @RequestMapping("/revenue")
+    ActionResult revenue(HttpSession session){
+        RevenueVO revenueVO = new RevenueVO();
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            return actionResult(ErrorCode.NeedAuthenticated);
+        }
+        MemberDO memberDO = memberRepository.findOne(userId);
+        revenueVO.setBonus(memberDO.getBonus());
+        revenueVO.setScore(memberDO.getScore());
+        revenueVO.setWithdraw(memberDO.getWithdraw());
+        revenueVO.setAnuualRate(0.108);
+        revenueVO.setDailyRevenue(
+                memberDO.getQuantity()
+                        *memberDO.getCost()
+                        *revenueVO.getAnuualRate()/365.0);
+
+        Date today =  new Date();
+        Calendar rightNow = Calendar.getInstance();
+        long days = rightNow.get(Calendar.DAY_OF_MONTH);
+        revenueVO.setMonthlyRevenue(revenueVO.getDailyRevenue()*days);
+
+        revenueVO.setTotalRevenue(revenueVO.getWithdraw() + revenueVO.getBonus());
+
+        
+
+
+
+        return  actionResult(revenueVO);
     }
 
     @RequestMapping("/signin")

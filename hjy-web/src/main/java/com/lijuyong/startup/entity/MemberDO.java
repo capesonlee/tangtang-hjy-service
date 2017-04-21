@@ -14,17 +14,7 @@ import java.sql.Timestamp;
 //        手机号码，
 //        类型id,（id为0表示劣后级，id为1表示优先级）
 //        类型名称，
-//        买入数量，
-//        购买成本，
-//        买入日期，
-//        最新价格，
-//        转让日期，
-//        回购日期，
-//        最低回购价，
-//        年收益率，
-//        积分，
-//        业绩奖励，
-//        盈亏提现
+
 @Entity(name = "t_member")
 public class MemberDO {
     @Id
@@ -33,44 +23,59 @@ public class MemberDO {
     @Column(name="user_name")
     private String name;
 
+    //账号
     @Column(name = "login_name",unique = true)
     private String loginName;
 
+    //密码
     @Column(name = "login_password")
     private String loginPassword;
 
+    //类型id
     @Column(name="grade")
     private Integer grade;
 
+    //        买入数量，
     @Column(name = "purchase_quantity")
     private Double quantity;
 
+    //        购买成本，
     @Column(name ="purchase_cost")
     private Double cost;
 
+    //        买入日期，
     @Column(name = "purchase_date")
     private Timestamp purchaseDate;
 
+    //        转让日期，
     @Column(name = "sellout_date")
     private Timestamp selloutDate;
 
+    //        回购日期，
     @Column(name = "buyback_date")
     private Timestamp buybackDate;
 
+    //        最低回购价，
     @Column(name ="buyback_price" )
     private Double buybackPrice;
 
+    //        年收益率，
     @Column(name = "anuual_rate")
     private Double anuualRate;
 
+    //        积分，
     @Column(name ="score")
     private Integer score;
 
+    //        业绩奖励，
     @Column(name="bonus")
     private Double bonus;
 
+    //        盈亏提现
     @Column(name = "withdraw")
     private Double withdraw;
+
+
 
     public Double getAnuualRate() {
         return anuualRate;
