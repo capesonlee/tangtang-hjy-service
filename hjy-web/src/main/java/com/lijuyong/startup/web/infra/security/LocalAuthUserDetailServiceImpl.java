@@ -32,6 +32,7 @@ public class LocalAuthUserDetailServiceImpl implements UserDetailsService {
                     0);
             localAuthUser.setCompanyName(adminDO.getCompanyName());
             localAuthUser.setCompanyCode(adminDO.getCompanyCode());
+            return  localAuthUser;
 
 
         }
