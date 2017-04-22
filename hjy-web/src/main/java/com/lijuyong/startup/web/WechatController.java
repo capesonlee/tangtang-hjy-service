@@ -115,7 +115,7 @@ public class WechatController extends BasicController {
 
         revenueVO.setTotalRevenue(revenueVO.getWithdraw() + revenueVO.getBonus());
 
-        
+
 
 
 

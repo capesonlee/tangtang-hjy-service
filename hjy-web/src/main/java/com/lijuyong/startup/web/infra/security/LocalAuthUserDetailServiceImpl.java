@@ -1,5 +1,7 @@
 package com.lijuyong.startup.web.infra.security;
+import com.lijuyong.startup.entity.AdminDO;
 import com.lijuyong.startup.entity.MemberDO;
+import com.lijuyong.startup.repository.AdminRespository;
 import com.lijuyong.startup.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class LocalAuthUserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    MemberRepository memberRepository;
+    AdminRespository adminRespository;
 
 
 
@@ -23,11 +25,14 @@ public class LocalAuthUserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 
-        MemberDO memberDo = memberRepository.findByLoginName(username);
-        if( memberDo != null ){
-            return new LocalAuthUser(memberDo.getLoginName(),
-                    memberDo.getLoginPassword(),
-                    memberDo.getId());
+        AdminDO adminDO = adminRespository.findByName(username);
+        if( adminDO != null ){
+            LocalAuthUser localAuthUser =  new LocalAuthUser(adminDO.getName(),
+                    adminDO.getPassword(),
+                    0);
+            localAuthUser.setCompanyName(adminDO.getCompanyName());
+            localAuthUser.setCompanyCode(adminDO.getCompanyCode());
+
 
         }
         throw new UsernameNotFoundException(String.format("No user found with username '%s'.",
