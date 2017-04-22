@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     public RestAuthenticationFilter restAuthenticationFilterBean() throws Exception {
-        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter("/user/login",
+        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter("/admin/login",
                 authenticationManager());
         restAuthenticationFilter.setAuthenticationSuccessHandler(new RestAuthenticationSuccessHandler());
         restAuthenticationFilter.setAuthenticationFailureHandler(new RestAuthenticationFailureHandler());
