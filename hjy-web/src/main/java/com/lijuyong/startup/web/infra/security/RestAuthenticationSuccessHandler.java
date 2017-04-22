@@ -20,7 +20,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         ActionResult actionResult =
                 new ActionResult(ErrorCode.Success.getCode(),
                         ErrorCode.Success.getDesc(),
-                        null);
+                        authentication.getPrincipal());
         HttpUtil.addJsonBodyToResponse(response,actionResult);
 
 

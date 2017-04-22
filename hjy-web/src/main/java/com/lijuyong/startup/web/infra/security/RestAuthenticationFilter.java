@@ -41,7 +41,9 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 
         String username;
         String password;
-        if( "application/json".equals(request.getHeader("content-type") )){
+        String conteType = request.getHeader("Content-Type");
+
+        if( conteType.contains("application/json" )){
             final LoinUserReq user =
                     new ObjectMapper().readValue(request.getInputStream(), LoinUserReq.class);
             username = user.getUsername();
