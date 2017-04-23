@@ -60,8 +60,8 @@ public class MemberDO {
     private Double buybackPrice;
 
     //        年收益率，
-    @Column(name = "anuual_rate")
-    private Double anuualRate;
+    @Column(name = "annual_rate")
+    private Double annualRate;
 
     //        积分，
     @Column(name ="score")
@@ -75,10 +75,20 @@ public class MemberDO {
     @Column(name = "withdraw")
     private Double withdraw;
 
+    // 最新价格
+    @Column(name = "currentPrice")
+    private Double  currentPrice;
 
+    public Double getCurrentPrice() {
+        return currentPrice;
+    }
 
-    public Double getAnuualRate() {
-        return anuualRate;
+    public void setCurrentPrice(Double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
+    public Double getAnnualRate() {
+        return annualRate;
     }
 
     public Double getBonus() {
@@ -109,8 +119,8 @@ public class MemberDO {
         return selloutDate;
     }
 
-    public void setAnuualRate(Double anuualRate) {
-        this.anuualRate = anuualRate;
+    public void setAnnualRate(Double annualRate) {
+        this.annualRate = annualRate;
     }
 
     public void setBonus(Double bonus) {
