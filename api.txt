@@ -8,7 +8,7 @@ post http://capesonlee.tunnel.2bdata.com/wechat/sign
 }
 
 返回值：
-0：成功（去第二步)
+0：成功（去第二步或第三步)
 7：用户名不存在或者密码错误(去第一步)
 
 第二步：微信授权
