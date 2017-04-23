@@ -24,6 +24,7 @@ import java.util.Date;
  * Created by john on 2017/4/23.
  */
 @RestController
+@RequestMapping("/user")
 public class UserController extends BasicController {
 
     @Autowired
