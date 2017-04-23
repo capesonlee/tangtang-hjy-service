@@ -71,6 +71,15 @@ public class WechatController extends BasicController {
         }
 
         session.setAttribute("userId", memberDO.getId());
+        String openid = (String)session.getAttribute("openid");
+        if( openid == null){
+            return actionResult(ErrorCode.Success);
+        }
+        WeChatDO weChatDO = new WeChatDO();
+        weChatDO.setAppId(appid);
+        weChatDO.setId(memberDO.getId());
+        weChatDO.setOpenId(openid);
+        wechatRepository.save(weChatDO);
         return actionResult(ErrorCode.Success);
 
     }
@@ -126,7 +135,7 @@ public class WechatController extends BasicController {
     ActionResult signin(@RequestBody UserVO userVO, HttpSession session) {
         return userLogin(userVO, session);
     }
-    
+
 
     @RequestMapping("/grant")
     ActionResult bind(HttpSession session,
@@ -153,6 +162,7 @@ public class WechatController extends BasicController {
         }
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
+            session.setAttribute("openid",accessTokenDTO.getOpenid());
             return actionResult(ErrorCode.NeedBindWechat);
         }
         weChatDO = new WeChatDO();
