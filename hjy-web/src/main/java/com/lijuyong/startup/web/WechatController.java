@@ -126,11 +126,12 @@ public class WechatController extends BasicController {
     ActionResult signin(@RequestBody UserVO userVO, HttpSession session) {
         return userLogin(userVO, session);
     }
+    
 
     @RequestMapping("/grant")
     ActionResult bind(HttpSession session,
                       @RequestParam("code") String code,
-                      @RequestParam("state") Integer state) throws Exception {
+                      @RequestParam("state") String state) throws Exception {
 
 
         AccessTokenDTO accessTokenDTO = null;
