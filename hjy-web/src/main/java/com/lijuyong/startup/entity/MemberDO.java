@@ -76,7 +76,7 @@ public class MemberDO {
     private Double withdraw;
 
     // 最新价格
-    @Column(name = "currentPrice")
+    @Column(name = "current_price")
     private Double  currentPrice;
 
     public Double getCurrentPrice() {
