@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,13 +37,19 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
 /**
  * Created by john on 2017/4/17.
  */
-@RestController
+@Controller
 @RequestMapping("/wechat")
 public class WechatController extends BasicController {
 
+    @Value("${wechat.default.url}")
+    private String defaultUrl;
+    @Value("${wechat.bind.url}")
+    private String bindUrl;
 
     @Autowired
     private WechatRepository wechatRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
     @Value("${wechat.appid}")
     private String appid;
@@ -57,88 +64,13 @@ public class WechatController extends BasicController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    @Autowired
-    MemberRepository memberRepository;
-
-    protected ActionResult userLogin(UserVO userVO, HttpSession session) {
-        MemberDO memberDO = memberRepository.findByLoginName(userVO.getLoginName());
-        if (memberDO == null) {
-            return actionResult(ErrorCode.AuthenticationFailed);
-        }
-        boolean valide = memberDO.getLoginPassword().equals(userVO.getPassword());
-        if (!valide) {
-            return actionResult(ErrorCode.AuthenticationFailed);
-        }
-
-        session.setAttribute("userId", memberDO.getId());
-        String openid = (String)session.getAttribute("openid");
-        if( openid == null){
-            return actionResult(ErrorCode.Success);
-        }
-        WeChatDO weChatDO = new WeChatDO();
-        weChatDO.setAppId(appid);
-        weChatDO.setId(memberDO.getId());
-        weChatDO.setOpenId(openid);
-        wechatRepository.save(weChatDO);
-        return actionResult(ErrorCode.Success);
-
-    }
-
-    @RequestMapping("/detail")
-    ActionResult detail(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            return actionResult(ErrorCode.NeedAuthenticated);
-        }
-        MemberDO memberDO = memberRepository.findOne(userId);
-        return actionResult(ErrorCode.Success, memberDO);
-    }
-
-    @RequestMapping("/login")
-    ActionResult login(UserVO userVO, HttpSession session) {
-        return userLogin(userVO, session);
-
-    }
-
-    @RequestMapping("/revenue")
-    ActionResult revenue(HttpSession session){
-        RevenueVO revenueVO = new RevenueVO();
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            return actionResult(ErrorCode.NeedAuthenticated);
-        }
-        MemberDO memberDO = memberRepository.findOne(userId);
-        revenueVO.setBonus(memberDO.getBonus());
-        revenueVO.setScore(memberDO.getScore());
-        revenueVO.setWithdraw(memberDO.getWithdraw());
-        revenueVO.setAnuualRate(0.108);
-        revenueVO.setDailyRevenue(
-                memberDO.getQuantity()
-                        *memberDO.getCost()
-                        *revenueVO.getAnuualRate()/365.0);
-
-        Date today =  new Date();
-        Calendar rightNow = Calendar.getInstance();
-        long days = rightNow.get(Calendar.DAY_OF_MONTH);
-        revenueVO.setMonthlyRevenue(revenueVO.getDailyRevenue()*days);
-
-        revenueVO.setTotalRevenue(revenueVO.getWithdraw() + revenueVO.getBonus());
 
 
 
-
-
-        return  actionResult(revenueVO);
-    }
-
-    @RequestMapping("/signin")
-    ActionResult signin(@RequestBody UserVO userVO, HttpSession session) {
-        return userLogin(userVO, session);
-    }
 
 
     @RequestMapping("/grant")
-    ActionResult bind(HttpSession session,
+    String bind(HttpSession session,
                       @RequestParam("code") String code,
                       @RequestParam("state") String state) throws Exception {
 
@@ -157,28 +89,25 @@ public class WechatController extends BasicController {
         if (weChatDO != null) {
 
             session.setAttribute("userId", weChatDO.getId());
-            return actionResult(ErrorCode.Success);
+            return "redirect:" + defaultUrl;
 
         }
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             session.setAttribute("openid",accessTokenDTO.getOpenid());
-            return actionResult(ErrorCode.NeedBindWechat);
+            return "redirect:" + bindUrl;
         }
         weChatDO = new WeChatDO();
         weChatDO.setAppId(appid);
         weChatDO.setId(userId);
         weChatDO.setOpenId(accessTokenDTO.getOpenid());
         wechatRepository.save(weChatDO);
-        return actionResult(ErrorCode.Success);
+        return "redirect:" + defaultUrl;
+        //return actionResult(ErrorCode.Success);
     }
 
 
-    @RequestMapping("/logout")
-    ActionResult logout(HttpSession session) {
-        session.invalidate();
-        return actionResult(ErrorCode.Success);
-    }
+
 
 
 }
