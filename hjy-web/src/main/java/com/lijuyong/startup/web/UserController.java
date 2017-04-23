@@ -24,7 +24,7 @@ import java.util.Date;
  * Created by john on 2017/4/23.
  */
 @RestController
-public class ProfileController extends BasicController {
+public class UserController extends BasicController {
 
     @Autowired
     private WechatRepository wechatRepository;
@@ -97,5 +97,10 @@ public class ProfileController extends BasicController {
     @RequestMapping("/signin")
     ActionResult signin(@RequestBody UserVO userVO, HttpSession session) {
         return userLogin(userVO, session);
+    }
+    @RequestMapping("/logout")
+    ActionResult logout(HttpSession session) {
+        session.invalidate();
+        return actionResult(ErrorCode.Success);
     }
 }

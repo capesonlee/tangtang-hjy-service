@@ -107,11 +107,7 @@ public class WechatController extends BasicController {
     }
 
 
-    @RequestMapping("/logout")
-    ActionResult logout(HttpSession session) {
-        session.invalidate();
-        return actionResult(ErrorCode.Success);
-    }
+
 
 
 }
