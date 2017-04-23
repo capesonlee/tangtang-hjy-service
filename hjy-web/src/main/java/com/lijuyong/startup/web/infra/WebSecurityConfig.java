@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/h2-hjy/**").permitAll()
-                .antMatchers("/*.html").permitAll()
+                .antMatchers("/*.html","/manage/**","/wx/**").permitAll()
                 .antMatchers("/wechat/**").permitAll()
                 .antMatchers("/member/validateName").permitAll()
                 .anyRequest().authenticated()
