@@ -46,6 +46,7 @@ public class WechatController extends BasicController {
     @Value("${wechat.bind.url}")
     private String bindUrl;
 
+
     @Autowired
     private WechatRepository wechatRepository;
     @Autowired

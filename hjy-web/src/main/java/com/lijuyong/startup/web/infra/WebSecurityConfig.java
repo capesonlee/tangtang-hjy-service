@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/h2-hjy/**").permitAll()
+                .antMatchers("/","/wx/","/manage/").permitAll()
                 .antMatchers("/*.html","/manage/**","/wx/**").permitAll()
                 .antMatchers("/wechat/**").permitAll()
                 .antMatchers("/user/**").permitAll()
