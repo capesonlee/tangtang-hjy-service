@@ -21,14 +21,53 @@ public class RevenueVO {
     private Integer score;
     //    业绩奖励，
     private Double bonus;
-    //    盈亏体现，
+    //    盈亏提现，
     private Double withdraw;
+    //盈亏
+    private Double winLose;
+    //当前价值
+    private Double curentValue;
+    //投资金额
+    private  Double investValue;
     //    投资收益率，
     private Double revenueRate;
     //    总提现金额
     private Double totalWithdraw;
 
+    //盈亏比例
+    private Double winLoseRate;
 
+    public Double getWinLoseRate() {
+        return winLoseRate;
+    }
+
+    public void setWinLoseRate(Double winLoseRate) {
+        this.winLoseRate = winLoseRate;
+    }
+
+    public Double getInvestValue() {
+        return investValue;
+    }
+
+    public void setInvestValue(Double investValue) {
+        this.investValue = investValue;
+    }
+
+    public Double getWinLose() {
+        return winLose;
+    }
+
+    public void setWinLose(Double winLose) {
+        this.winLose = winLose;
+    }
+
+    public Double getCurentValue() {
+        return curentValue;
+    }
+
+    public void setCurentValue(Double curentValue) {
+        this.curentValue = curentValue;
+    }
 
     public void setScore(Integer score) {
         this.score = score;
