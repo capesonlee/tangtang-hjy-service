@@ -4,6 +4,7 @@ import com.lijuyong.startup.entity.MemberDO;
 import com.lijuyong.startup.entity.WeChatDO;
 import com.lijuyong.startup.repository.MemberRepository;
 import com.lijuyong.startup.repository.WechatRepository;
+import com.lijuyong.startup.service.RevenueService;
 import com.lijuyong.startup.web.domain.RevenueVO;
 import com.lijuyong.startup.web.domain.UserVO;
 import com.youbang.infrastructure.log.ErrorCode;
@@ -24,12 +25,16 @@ import java.util.Date;
  * Created by john on 2017/4/23.
  */
 @RestController
+@RequestMapping("/user")
 public class UserController extends BasicController {
 
     @Autowired
     private WechatRepository wechatRepository;
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    RevenueService revenueService;
 
     @RequestMapping("/detail")
     ActionResult detail(HttpSession session) {
@@ -42,27 +47,12 @@ public class UserController extends BasicController {
     }
     @RequestMapping("/revenue")
     ActionResult revenue(HttpSession session){
-        RevenueVO revenueVO = new RevenueVO();
+
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             return actionResult(ErrorCode.NeedAuthenticated);
         }
-        MemberDO memberDO = memberRepository.findOne(userId);
-        revenueVO.setBonus(memberDO.getBonus());
-        revenueVO.setScore(memberDO.getScore());
-        revenueVO.setWithdraw(memberDO.getWithdraw());
-        revenueVO.setAnuualRate(0.108);
-        revenueVO.setDailyRevenue(
-                memberDO.getQuantity()
-                        *memberDO.getCost()
-                        *revenueVO.getAnuualRate()/365.0);
-
-        Date today =  new Date();
-        Calendar rightNow = Calendar.getInstance();
-        long days = rightNow.get(Calendar.DAY_OF_MONTH);
-        revenueVO.setMonthlyRevenue(revenueVO.getDailyRevenue()*days);
-
-        revenueVO.setTotalRevenue(revenueVO.getWithdraw() + revenueVO.getBonus());
+        RevenueVO revenueVO = revenueService.getRevenue(userId);
         return  actionResult(revenueVO);
     }
 

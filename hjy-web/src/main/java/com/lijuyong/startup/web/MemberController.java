@@ -2,6 +2,8 @@ package com.lijuyong.startup.web;
 
 import com.lijuyong.startup.entity.MemberDO;
 import com.lijuyong.startup.repository.MemberRepository;
+import com.lijuyong.startup.service.RevenueService;
+import com.lijuyong.startup.web.domain.RevenueVO;
 import com.youbang.infrastructure.log.ErrorCode;
 import com.youbang.infrastructure.web.ActionResult;
 import com.youbang.infrastructure.web.BasicController;
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController extends BasicController{
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    RevenueService revenueService;
 
     @RequestMapping("/test")
     public String test(){
@@ -73,8 +78,14 @@ public class MemberController extends BasicController{
 
         }
         return actionResult(ErrorCode.LoginNameExists,x);
-
     }
+
+    @RequestMapping("/revenue")
+    public ActionResult revenue(@RequestParam("id") Integer id){
+        RevenueVO revenueVO = revenueService.getRevenue(id);
+        return  actionResult(revenueVO);
+    }
+
 
 
 }
