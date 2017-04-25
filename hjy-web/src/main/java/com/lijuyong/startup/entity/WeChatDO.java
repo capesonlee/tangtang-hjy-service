@@ -11,12 +11,13 @@ import javax.persistence.Id;
  */
 @Entity(name = "t_wechat")
 public class WeChatDO {
-    @Id
-    @GeneratedValue
+
+
     @Column(name = "id",nullable = false)
     private  Integer id;
 
 
+    @Id
     @Column(name = "open_id")
     private String openId;
 
