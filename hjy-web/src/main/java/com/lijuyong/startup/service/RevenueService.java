@@ -52,8 +52,6 @@ public class RevenueService {
         //当月每天收益率累计
         Date today = new Date();
         Calendar rightNow = Calendar.getInstance();
-        long days = rightNow.get(Calendar.DAY_OF_MONTH);
-        revenueVO.setMonthlyRevenue(revenueVO.getDailyRevenue() * days);
 
         //分红计算
 
@@ -63,6 +61,13 @@ public class RevenueService {
         long purchaseTime = rightNow.getTimeInMillis();
 
         long totalDays = (currentTime - purchaseTime) / (1000 * 3600 * 24);
+
+        long days = rightNow.get(Calendar.DAY_OF_MONTH);
+        if( totalDays < days){
+            days = totalDays;
+        }
+
+        revenueVO.setMonthlyRevenue(revenueVO.getDailyRevenue() * days);
         //分红
         double dividen = revenueVO.getDailyRevenue() * totalDays;
         //总收益：TODO

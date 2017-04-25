@@ -3,6 +3,7 @@ package com.lijuyong.startup.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -10,8 +11,11 @@ import javax.persistence.Id;
  */
 @Entity(name = "t_wechat")
 public class WeChatDO {
+
+
     @Column(name = "id",nullable = false)
     private  Integer id;
+
 
     @Id
     @Column(name = "open_id")
