@@ -66,10 +66,7 @@ public class UserController extends BasicController {
             return actionResult(ErrorCode.AuthenticationFailed);
         }
         session.setAttribute("userId", memberDO.getId());
-        String openid = (String)session.getAttribute("openid");
-        if( openid == null){
-            return actionResult(ErrorCode.Success);
-        }
+     
         return actionResult(ErrorCode.Success);
 
     }
