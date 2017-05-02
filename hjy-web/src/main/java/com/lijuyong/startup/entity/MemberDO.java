@@ -65,19 +65,19 @@ public class MemberDO {
 
     //        积分，
     @Column(name ="score")
-    private Integer score;
+    private Integer score = 0;
 
     //        业绩奖励，
     @Column(name="bonus")
-    private Double bonus;
+    private Double bonus = 0.0;
 
     //        盈亏提现
     @Column(name = "withdraw")
-    private Double withdraw;
+    private Double withdraw = 0.0;
 
     // 最新价格
     @Column(name = "current_price")
-    private Double  currentPrice;
+    private Double  currentPrice = 0.0;
 
     public Double getCurrentPrice() {
         return currentPrice;

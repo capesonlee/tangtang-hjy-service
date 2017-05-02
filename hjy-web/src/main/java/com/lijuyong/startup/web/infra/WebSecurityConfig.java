@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/h2-hjy/**").permitAll()
                 .antMatchers("/","/wx/","/manage/").permitAll()
-                .antMatchers("/*.html","/*.ico","/manage/**","/wx/**").permitAll()
+                .antMatchers("/*.html","/*.ico","/manage/**","/wx/**","/*.txt").permitAll()
                 .antMatchers("/wechat/**").permitAll()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/member/validateName").permitAll()

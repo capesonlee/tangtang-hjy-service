@@ -46,7 +46,9 @@ public class MemberController extends BasicController{
     @RequestMapping(value = "/remove",method = RequestMethod.POST)
     public ActionResult<Integer> remove(@RequestParam("id") Integer id){
         memberRepository.delete(id);
-        wechatRepository.delete(id);
+
+        wechatRepository.deleteById(id);
+        wechatRepository.flush();
         return  actionResult(id);
     }
 
