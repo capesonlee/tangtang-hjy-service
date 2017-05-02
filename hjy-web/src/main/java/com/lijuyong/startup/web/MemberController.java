@@ -2,6 +2,7 @@ package com.lijuyong.startup.web;
 
 import com.lijuyong.startup.entity.MemberDO;
 import com.lijuyong.startup.repository.MemberRepository;
+import com.lijuyong.startup.repository.WechatRepository;
 import com.lijuyong.startup.service.RevenueService;
 import com.lijuyong.startup.web.domain.RevenueVO;
 import com.youbang.infrastructure.log.ErrorCode;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController extends BasicController{
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    WechatRepository wechatRepository;
 
     @Autowired
     RevenueService revenueService;
@@ -43,6 +46,7 @@ public class MemberController extends BasicController{
     @RequestMapping(value = "/remove",method = RequestMethod.POST)
     public ActionResult<Integer> remove(@RequestParam("id") Integer id){
         memberRepository.delete(id);
+        wechatRepository.delete(id);
         return  actionResult(id);
     }
 
