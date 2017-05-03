@@ -2,6 +2,7 @@ package com.lijuyong.startup.web;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lijuyong.startup.entity.MemberDO;
 import com.lijuyong.startup.entity.WeChatDO;
 import com.lijuyong.startup.repository.WechatRepository;
 import com.lijuyong.startup.web.domain.AccessTokenDTO;
@@ -88,7 +89,11 @@ public class WechatController extends BasicController {
         }
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
-            session.setAttribute("openid",accessTokenDTO.getOpenid());
+            return "redirect:" + bindUrl;
+        }
+        MemberDO memberDO = memberRepository.findOne(userId);
+        if( memberDO == null ){
+            session.removeAttribute("userId");
             return "redirect:" + bindUrl;
         }
         weChatDO = new WeChatDO();
