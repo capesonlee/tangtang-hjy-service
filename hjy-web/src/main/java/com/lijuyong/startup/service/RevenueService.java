@@ -54,6 +54,7 @@ public class RevenueService {
         Calendar rightNow = Calendar.getInstance();
 
         //分红计算
+        long days = rightNow.get(Calendar.DAY_OF_MONTH);
 
         Date purchaseDate = memberDO.getPurchaseDate();
         long currentTime = rightNow.getTimeInMillis();
@@ -62,7 +63,7 @@ public class RevenueService {
 
         long totalDays = (currentTime - purchaseTime) / (1000 * 3600 * 24);
 
-        long days = rightNow.get(Calendar.DAY_OF_MONTH);
+
         if( totalDays < days){
             days = totalDays;
         }
